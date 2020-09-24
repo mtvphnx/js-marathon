@@ -1,9 +1,8 @@
 // ЗАДАНИЕ #1
 
-
-const firstRow = prompt('Введите первую строку:', '');
-const secondRow = prompt('Введите вторую строку:', '');
-const letter = prompt('Давайте посчитаем букву в строке и выведем ту строку, в которой такой буквы больше. Введите букву:', '');
+const firstRow = prompt('Введи первую строку:', '');
+const secondRow = prompt('Введи вторую строку:', '');
+const letter = prompt('Давай посчитаем букву в строке и выведем ту строку, в которой такой буквы больше. Введи букву:', '');
 
 
 function getRow(firstRow, secondRow) {
@@ -33,10 +32,9 @@ function getRow(firstRow, secondRow) {
 
 alert(getRow(firstRow, secondRow));
 
-
 // ЗАДАНИЕ #2
 
-const number = prompt('Давайте форматируем ваш номер телефона. Принимаются форматы +7xxxxxxxxxx, 7xxxxxxxxxx, 8xxxxxxxxxx и 9xxxxxxxxx', '');
+const number = prompt('Давай форматируем твой номер телефона. Принимаются форматы +7xxxxxxxxxx, 7xxxxxxxxxx, 8xxxxxxxxxx и 9xxxxxxxxx', '');
 
 function formattedPhone(phone) {
 
@@ -102,18 +100,15 @@ function formattedPhone(phone) {
                     validNumber += result.charAt(z)
 
                 }
-
-
             }
 
             return `Твой отформатированный номер ${validNumber}`;
 
         }
         
-
     } else {
 
-        return 'Зачем ты отменил ввод?';
+        return 'Зачем нажал на отмену? Обнови страницу и начни сначала!';
         
     }
 }
