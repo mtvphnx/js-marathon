@@ -3,73 +3,77 @@ const buttonEnemy = document.getElementById('btn-kick-enemy');
 
 const character = {
     name: 'Pikachu',
-    defaultHP: 100,
+    defaultHP: 200,
     damageHP: 100,
     elHP: document.getElementById('health-character'),
-    elProgress: document.getElementById('progressbar-character')
+    elProgress: document.getElementById('progressbar-character'),
+    countDamage: 20,
+    damage: changeHP,
+    render: renderPerson
 };
 
 const enemy = {
     name: 'Charmander',
-    defaultHP: 100,
+    defaultHP: 150,
     damageHP: 100,
     elHP: document.getElementById('health-enemy'),
-    elProgress: document.getElementById('progressbar-enemy')
+    elProgress: document.getElementById('progressbar-enemy'),
+    countDamage: 20,
+    damage: changeHP,
+    render: renderPerson
 }
-
-character.damage = function() {
-    changeHP(character, random(20));
-};
-
-enemy.damage = function() {
-    changeHP(enemy, random(20));
-};
 
 function init() {
-    renderPersons(character, enemy);
+    character.render();
+    enemy.render();
 }
 
-function renderHP(person) {
-    person.elHP.innerText = `${person.damageHP} / ${person.defaultHP}`;
+function renderHP(self) {
+    self.elHP.innerText = `${self.damageHP} / ${self.defaultHP}`;
 }
 
-function renderProgress(person) {
-    person.elProgress.style.width = `${person.damageHP}%`;
+function renderProgress(self) {
+    let text = `${self.damageHP / self.defaultHP * 100}%`
+    self.elProgress.style.width = text;
 }
 
-function changeHP(person, count) {
+function changeHP() {
 
-    if (person.damageHP < count) {
-        person.damageHP = 0;
+    if (this.damageHP < this.countDamage) {
+        this.damageHP = 0;
 
         buttonCharacter.disabled = true;
         buttonEnemy.disabled = true;
 
+        let name = this.name;
+
         setTimeout(function() {
-            alert(`Персонаж ${person.name} проиграл бой!`);
+            alert(`Персонаж ${name} проиграл бой!`);
         }, 500);
+
     } else {
-        person.damageHP -= count;
+        this.damageHP -= random(this.countDamage);
     }
 
-    renderPersons(character, enemy);
+    this.render();
 
 }
 
-function renderPersons() {
-
-    for (let x = 0; x < arguments.length; x++) {
-        renderHP(arguments[x]);
-        renderProgress(arguments[x]);
-    }
-
+function renderPerson() {
+    renderHP(this);
+    renderProgress(this);
 }
 
 function random(num) {
     return Math.ceil(Math.random() * num);
 }
 
-buttonCharacter.addEventListener('click', character.damage);
-buttonEnemy.addEventListener('click', enemy.damage);
+buttonCharacter.addEventListener('click', function() {
+    character.damage();
+});
+
+buttonEnemy.addEventListener('click', function() {
+    enemy.damage();
+});
 
 init();
