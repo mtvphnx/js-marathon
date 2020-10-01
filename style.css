@@ -479,13 +479,13 @@ h1 {
     margin: 0 auto;
 }
 
-.log__item {
+.log p {
     margin: 0;
     padding: .5rem;
 
     text-align: left;
 }
 
-.log__item_finish {
+.log-finish {
     background-color: lime;
 }

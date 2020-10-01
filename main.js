@@ -77,10 +77,9 @@ function changeHP() {
 function renderLog(text, finish = false) {
     let $p = document.createElement('p');
     $p.innerText = text;
-    $p.classList.add('log__item');
 
     if (finish === true) {
-        $p.classList.add('log__item_finish');
+        $p.classList.add('log-finish');
     }
 
     if (logBlock.childElementCount === 5) {
