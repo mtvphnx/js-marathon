@@ -48,34 +48,44 @@ function renderProgress(self) {
 
 function changeHP() {
 
-    const { countDamage, name, defaultHP, render } = this;
-    let { currentDamage, damageHP } = this;
+    const { countDamage, name, defaultHP } = this;
 
     let currentDamageValue = random(countDamage);
-    currentDamage = currentDamageValue;
+    this.currentDamage = currentDamageValue;
 
     const log = this === character ? generateLog(this, enemy) : generateLog(this, character);
 
-    if (damageHP < currentDamageValue) {
-        damageHP = 0;
+    if (this.damageHP < currentDamageValue) {
+
+        this.damageHP = 0;
 
         buttonCharacter.disabled = true;
         buttonEnemy.disabled = true;
 
-        renderLog(`Персонаж ${name} проиграл бой! ${currentDamage} [0 / ${defaultHP}]`);
+        renderLog(`Персонаж ${name} проиграл бой! ${currentDamageValue} [0 / ${defaultHP}]`, true);
 
     } else {
-        damageHP -= currentDamageValue;
 
-        renderLog(log);
+        this.damageHP -= currentDamageValue;
+
+        renderLog(log, false);
     }
 
-    render();
+    this.render();
 }
 
-function renderLog(text) {
+function renderLog(text, finish = false) {
     let $p = document.createElement('p');
     $p.innerText = text;
+    $p.classList.add('log__item');
+
+    if (finish === true) {
+        $p.classList.add('log__item_finish');
+    }
+
+    if (logBlock.childElementCount === 5) {
+        logBlock.removeChild(logBlock.lastChild);
+    }
 
     logBlock.prepend($p);
 }
@@ -91,8 +101,8 @@ function random(num) {
 
 function generateLog(firstPerson, secondPerson) {
 
-    const { name : firstName, currentDamage, damageHP, defaultHP } = firstPerson;
-    const { name: secondName } = secondPerson;
+    let { name : firstName, currentDamage, damageHP, defaultHP } = firstPerson;
+    let { name: secondName } = secondPerson;
 
     const logs = [
         `${firstName} вспомнил что-то важное, но неожиданно ${secondName}, не помня себя от испуга, ударил в предплечье врага. ${currentDamage} [${damageHP - currentDamage} / ${defaultHP}]`,
