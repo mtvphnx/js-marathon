@@ -1,5 +1,6 @@
 const buttonCharacter = document.getElementById('btn-kick-character');
 const buttonEnemy = document.getElementById('btn-kick-enemy');
+const logBlock = document.getElementById('log');
 
 const character = {
     name: 'Pikachu',
@@ -9,7 +10,8 @@ const character = {
     elProgress: document.getElementById('progressbar-character'),
     countDamage: 20,
     damage: changeHP,
-    render: renderPerson
+    render: renderPerson,
+    currentDamage: null
 };
 
 const enemy = {
@@ -20,7 +22,8 @@ const enemy = {
     elProgress: document.getElementById('progressbar-enemy'),
     countDamage: 20,
     damage: changeHP,
-    render: renderPerson
+    render: renderPerson,
+    currentDamage: null
 }
 
 function init() {
@@ -29,34 +32,52 @@ function init() {
 }
 
 function renderHP(self) {
-    self.elHP.innerText = `${self.damageHP} / ${self.defaultHP}`;
+
+    const { elHP, damageHP, defaultHP } = self;
+
+    elHP.innerText = `${damageHP} / ${defaultHP}`;
 }
 
 function renderProgress(self) {
-    let text = `${self.damageHP / self.defaultHP * 100}%`
-    self.elProgress.style.width = text;
+
+    const { damageHP, defaultHP, elProgress } = self;
+
+    let text = `${damageHP / defaultHP * 100}%`
+    elProgress.style.width = text;
 }
 
 function changeHP() {
 
-    if (this.damageHP < this.countDamage) {
-        this.damageHP = 0;
+    const { countDamage, name, defaultHP, render } = this;
+    let { currentDamage, damageHP } = this;
+
+    let currentDamageValue = random(countDamage);
+    currentDamage = currentDamageValue;
+
+    const log = this === character ? generateLog(this, enemy) : generateLog(this, character);
+
+    if (damageHP < currentDamageValue) {
+        damageHP = 0;
 
         buttonCharacter.disabled = true;
         buttonEnemy.disabled = true;
 
-        let name = this.name;
-
-        setTimeout(function() {
-            alert(`Персонаж ${name} проиграл бой!`);
-        }, 500);
+        renderLog(`Персонаж ${name} проиграл бой! ${currentDamage} [0 / ${defaultHP}]`);
 
     } else {
-        this.damageHP -= random(this.countDamage);
+        damageHP -= currentDamageValue;
+
+        renderLog(log);
     }
 
-    this.render();
+    render();
+}
 
+function renderLog(text) {
+    let $p = document.createElement('p');
+    $p.innerText = text;
+
+    logBlock.prepend($p);
 }
 
 function renderPerson() {
@@ -66,6 +87,27 @@ function renderPerson() {
 
 function random(num) {
     return Math.ceil(Math.random() * num);
+}
+
+function generateLog(firstPerson, secondPerson) {
+
+    const { name : firstName, currentDamage, damageHP, defaultHP } = firstPerson;
+    const { name: secondName } = secondPerson;
+
+    const logs = [
+        `${firstName} вспомнил что-то важное, но неожиданно ${secondName}, не помня себя от испуга, ударил в предплечье врага. ${currentDamage} [${damageHP - currentDamage} / ${defaultHP}]`,
+        `${firstName} поперхнулся, и за это ${secondName} с испугу приложил прямой удар коленом в лоб врага. ${currentDamage}  [${damageHP - currentDamage} / ${defaultHP}]`,
+        `${firstName} забылся, но в это время наглый ${secondName}, приняв волевое решение, неслышно подойдя сзади, ударил. ${currentDamage}  [${damageHP - currentDamage} / ${defaultHP}]`,
+        `${firstName} пришел в себя, но неожиданно ${secondName} случайно нанес мощнейший удар. ${currentDamage}  [${damageHP - currentDamage} / ${defaultHP}]`,
+        `${firstName} поперхнулся, но в это время ${secondName} нехотя раздробил кулаком \<вырезанно цензурой\> противника. ${currentDamage}  [${damageHP - currentDamage} / ${defaultHP}]`,
+        `${firstName} удивился, а ${secondName} пошатнувшись влепил подлый удар. ${currentDamage}  [${damageHP - currentDamage} / ${defaultHP}]`,
+        `${firstName} высморкался, но неожиданно ${secondName} провел дробящий удар. ${currentDamage}  [${damageHP - currentDamage} / ${defaultHP}]`,
+        `${firstName} пошатнулся, и внезапно наглый ${secondName} беспричинно ударил в ногу противника. ${currentDamage}  [${damageHP - currentDamage} / ${defaultHP}]`,
+        `${firstName} расстроился, как вдруг, неожиданно ${secondName} случайно влепил стопой в живот соперника. ${currentDamage}  [${damageHP - currentDamage} / ${defaultHP}]`,
+        `${firstName} пытался что-то сказать, но вдруг, неожиданно ${secondName} со скуки, разбил бровь сопернику. ${currentDamage}  [${damageHP - currentDamage} / ${defaultHP}]`
+    ];
+
+    return logs[random(logs.length) - 1];
 }
 
 buttonCharacter.addEventListener('click', function() {
