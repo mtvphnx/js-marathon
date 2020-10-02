@@ -472,3 +472,20 @@ h1 {
 .action label {
     padding: 6px 0;
 }
+
+.log {
+    padding: 1rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.log p {
+    margin: 0;
+    padding: .5rem;
+
+    text-align: left;
+}
+
+.log-finish {
+    background-color: lime;
+}
