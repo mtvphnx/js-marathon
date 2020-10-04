@@ -1,36 +1,50 @@
 const buttonCharacter = document.getElementById('btn-kick-character');
 const buttonEnemy = document.getElementById('btn-kick-enemy');
+
+const hpCharacter = document.getElementById('health-character');
+const hpEnemy = document.getElementById('health-enemy');
+
+const progressCharacter = document.getElementById('progressbar-character');
+const progressEnemy = document.getElementById('progressbar-enemy');
+
 const logContainer = document.getElementById('logs');
 
 const character = {
     name: 'Pikachu',
+
+    elHP: hpCharacter,
+    elProgress: progressCharacter,
+    elButton: buttonCharacter,
+
     defaultHP: 200,
     damageHP: 100,
-    elHP: document.getElementById('health-character'),
-    elProgress: document.getElementById('progressbar-character'),
     countDamage: 20,
+    currentDamage: 0,
+    hits: 6,
+
     damage: changeHP,
     render: renderPerson,
-    currentDamage: null,
-    elButton: buttonCharacter,
-    hits: 6,
     countKicks: counterKicks(6)
 };
 
 const enemy = {
     name: 'Charmander',
+
+    elHP: hpEnemy,
+    elProgress: progressEnemy,
+    elButton: buttonEnemy,
+
     defaultHP: 150,
     damageHP: 100,
-    elHP: document.getElementById('health-enemy'),
-    elProgress: document.getElementById('progressbar-enemy'),
     countDamage: 20,
+    currentDamage: 0,
+    hits: 5,
+
     damage: changeHP,
     render: renderPerson,
-    currentDamage: null,
-    elButton: buttonEnemy,
-    hits: 5,
     countKicks: counterKicks(5)
 }
+
 
 function init() {
     character.render();
