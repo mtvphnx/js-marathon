@@ -11,7 +11,8 @@ const character = {
     countDamage: 20,
     damage: changeHP,
     render: renderPerson,
-    currentDamage: null
+    currentDamage: null,
+    elButton: buttonCharacter
 };
 
 const enemy = {
@@ -119,12 +120,30 @@ function generateLog(firstPerson, secondPerson) {
     return logs[random(logs.length) - 1];
 }
 
+function counterKicks(count) {
+    let number = count;
+
+    return function(person) {
+        number -= 1;
+        const result = number === 0 ? `У ${person.name} закончились удары` : `Оставшиеся удары ${person.name} - ${number}`;
+
+        person.elButton.innerText = number;
+
+        return console.log(result);
+    };
+}
+
+const characterKiсks = counterKicks(6);
+const enemyKiсks = counterKicks(6);
+
 buttonCharacter.addEventListener('click', function() {
     character.damage();
+    characterKiсks(character);
 });
 
 buttonEnemy.addEventListener('click', function() {
     enemy.damage();
+    enemyKiсks(enemy);
 });
 
 init();
