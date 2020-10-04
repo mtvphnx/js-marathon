@@ -473,13 +473,13 @@ h1 {
     padding: 6px 0;
 }
 
-.log {
+.logs {
     padding: 1rem;
     max-width: 1000px;
     margin: 0 auto;
 }
 
-.log p {
+.logs p {
     margin: 0;
     padding: .5rem;
 

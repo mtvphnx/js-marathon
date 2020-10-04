@@ -1,6 +1,6 @@
 const buttonCharacter = document.getElementById('btn-kick-character');
 const buttonEnemy = document.getElementById('btn-kick-enemy');
-const logBlock = document.getElementById('log');
+const logContainer = document.getElementById('logs');
 
 const character = {
     name: 'Pikachu',
@@ -68,7 +68,7 @@ function changeHP() {
 
         this.damageHP -= currentDamageValue;
 
-        renderLog(log, false);
+        renderLog(log);
     }
 
     this.render();
@@ -82,11 +82,11 @@ function renderLog(text, finish = false) {
         $p.classList.add('log-finish');
     }
 
-    if (logBlock.childElementCount === 5) {
-        logBlock.removeChild(logBlock.lastChild);
+    if (logContainer.childElementCount === 5) {
+        logContainer.removeChild(logContainer.lastChild);
     }
 
-    logBlock.prepend($p);
+    logContainer.prepend($p);
 }
 
 function renderPerson() {
@@ -100,8 +100,8 @@ function random(num) {
 
 function generateLog(firstPerson, secondPerson) {
 
-    let { name : firstName, currentDamage, damageHP, defaultHP } = firstPerson;
-    let { name: secondName } = secondPerson;
+    const { name : firstName, currentDamage, damageHP, defaultHP } = firstPerson;
+    const { name: secondName } = secondPerson;
 
     const logs = [
         `${firstName} вспомнил что-то важное, но неожиданно ${secondName}, не помня себя от испуга, ударил в предплечье врага. ${currentDamage} [${damageHP - currentDamage} / ${defaultHP}]`,
