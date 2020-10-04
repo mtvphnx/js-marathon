@@ -12,7 +12,9 @@ const character = {
     damage: changeHP,
     render: renderPerson,
     currentDamage: null,
-    elButton: buttonCharacter
+    elButton: buttonCharacter,
+    hits: 6,
+    countKicks: counterKicks(6)
 };
 
 const enemy = {
@@ -24,7 +26,10 @@ const enemy = {
     countDamage: 20,
     damage: changeHP,
     render: renderPerson,
-    currentDamage: null
+    currentDamage: null,
+    elButton: buttonEnemy,
+    hits: 5,
+    countKicks: counterKicks(5)
 }
 
 function init() {
@@ -45,6 +50,13 @@ function renderProgress(self) {
 
     let text = `${damageHP / defaultHP * 100}%`
     elProgress.style.width = text;
+}
+
+function renderCounter(self) {
+
+    const { elButton, hits } = self;
+
+    elButton.querySelector('span').innerText = hits;
 }
 
 function changeHP() {
@@ -93,6 +105,7 @@ function renderLog(text, finish = false) {
 function renderPerson() {
     renderHP(this);
     renderProgress(this);
+    renderCounter(this);
 }
 
 function random(num) {
@@ -123,27 +136,29 @@ function generateLog(firstPerson, secondPerson) {
 function counterKicks(count) {
     let number = count;
 
-    return function(person) {
+    return function() {
+        const { elButton, name } = this;
         number -= 1;
-        const result = number === 0 ? `У ${person.name} закончились удары` : `Оставшиеся удары ${person.name} - ${number}`;
 
-        person.elButton.innerText = number;
+        if (number === 0) {
+            elButton.querySelector('span').innerText = number;
+            elButton.disabled = true;
 
-        return console.log(result);
+            renderLog(`У ${name} закончились удары`, true);
+        } else {
+            elButton.querySelector('span').innerText = number;
+        }
     };
 }
 
-const characterKiсks = counterKicks(6);
-const enemyKiсks = counterKicks(6);
-
 buttonCharacter.addEventListener('click', function() {
     character.damage();
-    characterKiсks(character);
+    character.countKicks();
 });
 
 buttonEnemy.addEventListener('click', function() {
     enemy.damage();
-    enemyKiсks(enemy);
+    enemy.countKicks();
 });
 
 init();
