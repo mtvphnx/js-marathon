@@ -1,30 +1,50 @@
 const buttonCharacter = document.getElementById('btn-kick-character');
 const buttonEnemy = document.getElementById('btn-kick-enemy');
+
+const hpCharacter = document.getElementById('health-character');
+const hpEnemy = document.getElementById('health-enemy');
+
+const progressCharacter = document.getElementById('progressbar-character');
+const progressEnemy = document.getElementById('progressbar-enemy');
+
 const logContainer = document.getElementById('logs');
 
 const character = {
     name: 'Pikachu',
+
+    elHP: hpCharacter,
+    elProgress: progressCharacter,
+    elButton: buttonCharacter,
+
     defaultHP: 200,
     damageHP: 100,
-    elHP: document.getElementById('health-character'),
-    elProgress: document.getElementById('progressbar-character'),
     countDamage: 20,
+    currentDamage: 0,
+    hits: 6,
+
     damage: changeHP,
     render: renderPerson,
-    currentDamage: null
+    countKicks: counterKicks(6)
 };
 
 const enemy = {
     name: 'Charmander',
+
+    elHP: hpEnemy,
+    elProgress: progressEnemy,
+    elButton: buttonEnemy,
+
     defaultHP: 150,
     damageHP: 100,
-    elHP: document.getElementById('health-enemy'),
-    elProgress: document.getElementById('progressbar-enemy'),
     countDamage: 20,
+    currentDamage: 0,
+    hits: 5,
+
     damage: changeHP,
     render: renderPerson,
-    currentDamage: null
+    countKicks: counterKicks(5)
 }
+
 
 function init() {
     character.render();
@@ -44,6 +64,13 @@ function renderProgress(self) {
 
     let text = `${damageHP / defaultHP * 100}%`
     elProgress.style.width = text;
+}
+
+function renderCounter(self) {
+
+    const { elButton, hits } = self;
+
+    elButton.querySelector('span').innerText = hits;
 }
 
 function changeHP() {
@@ -92,6 +119,7 @@ function renderLog(text, finish = false) {
 function renderPerson() {
     renderHP(this);
     renderProgress(this);
+    renderCounter(this);
 }
 
 function random(num) {
@@ -119,12 +147,32 @@ function generateLog(firstPerson, secondPerson) {
     return logs[random(logs.length) - 1];
 }
 
+function counterKicks(count) {
+    let number = count;
+
+    return function() {
+        const { elButton, name } = this;
+        number -= 1;
+
+        if (number === 0) {
+            elButton.querySelector('span').innerText = number;
+            elButton.disabled = true;
+
+            renderLog(`У ${name} закончились удары`, true);
+        } else {
+            elButton.querySelector('span').innerText = number;
+        }
+    };
+}
+
 buttonCharacter.addEventListener('click', function() {
     character.damage();
+    character.countKicks();
 });
 
 buttonEnemy.addEventListener('click', function() {
     enemy.damage();
+    enemy.countKicks();
 });
 
 init();
