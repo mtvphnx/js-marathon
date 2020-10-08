@@ -474,9 +474,16 @@ h1 {
 }
 
 .logs {
+    position: relative;
+    z-index: 10;
     padding: 1rem;
     max-width: 1000px;
     margin: 0 auto;
+    background: #ceefff;
+    height: 200px;
+    border-radius: 5px;
+    overflow-x: auto;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, .4);
 }
 
 .logs p {

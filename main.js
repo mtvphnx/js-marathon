@@ -1,19 +1,34 @@
 import Pokemon from './modules/Pokemon.js';
 import { generateLog, renderLog } from "./modules/utils.js";
+import { pokemons } from "./modules/pokemons.js";
+import Manage from "./modules/Manage.js";
+
+const startGameBtn = document.getElementById('btn-start');
+const stopGameBtn = document.getElementById('btn-stop');
+const resetGameBtn = document.getElementById('btn-reset');
+
+const pikachu = pokemons.find((item) => item.name === 'Pikachu');
+
+const game = new Manage ({
+    name: "game"
+})
 
 const character = new Pokemon({
     name: 'Pikachu',
-    selector: 'character',
+    selector: 'player1',
     defaultHP: 200,
     damageHP: 100,
     countDamage: 20,
     currentDamage: 0,
-    hits: 10
+    hits: 10,
+    ...pikachu
 });
+
+console.log(character);
 
 const enemy = new Pokemon({
     name: 'Charmander',
-    selector: 'enemy',
+    selector: 'player2',
     defaultHP: 150,
     damageHP: 100,
     countDamage: 20,
@@ -43,4 +58,16 @@ const counterEnemy = enemy.counterKicks(enemy.hits);
             counterEnemy(item);
         }
     });
+});
+
+startGameBtn.addEventListener('click', function () {
+    game.start();
+});
+
+stopGameBtn.addEventListener('click', function () {
+    game.stop();
+});
+
+resetGameBtn.addEventListener('click', function () {
+    game.reset();
 });

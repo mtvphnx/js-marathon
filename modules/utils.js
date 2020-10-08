@@ -31,9 +31,5 @@ export function renderLog(text, finish = false) {
         $p.classList.add('log-finish');
     }
 
-    if (logContainer.childElementCount === 5) {
-        logContainer.removeChild(logContainer.lastChild);
-    }
-
     logContainer.prepend($p);
 }
