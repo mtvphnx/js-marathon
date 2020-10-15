@@ -30,11 +30,11 @@ export default class Pokemon extends Selector {
 
     renderProgress = () => {
         const { elProgress, life, hp } = this;
-        let persent = life / hp * 100;
-        elProgress.style.width = `${persent}%`;
-        if (persent < 60 && persent > 20) {
+        let percent = life / hp * 100;
+        elProgress.style.width = `${percent}%`;
+        if (percent < 60 && percent > 20) {
             elProgress.classList.add('low');
-        } else if (persent < 20) {
+        } else if (percent < 20) {
             elProgress.classList.add('critical');
         } else {
             elProgress.classList.remove('low');

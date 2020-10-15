@@ -1,19 +1,19 @@
 import { random, renderLog, generateLog, server } from "./utils.js";
 import Pokemon from "./Pokemon.js";
 
-const helloScreen = document.querySelector('.control__list');
-const attacksList = document.querySelector('.control__fight');
-const fightersList = document.querySelector('.control__fighters');
-const players = document.querySelectorAll('.pokemon');
-const logs = document.getElementById('logs');
+const $helloScreen = document.querySelector('.control__list');
+const $attacksList = document.querySelector('.control__fight');
+const $fightersList = document.querySelector('.control__fighters');
+const $players = document.querySelectorAll('.pokemon');
+const $logs = document.getElementById('logs');
 
-const startGameBtn = document.getElementById('btn-start');
-const stopGameBtn = document.getElementById('btn-stop');
-const resetGameBtn = document.getElementById('btn-reset');
+const $startGameBtn = document.getElementById('btn-start');
+const $stopGameBtn = document.getElementById('btn-stop');
+const $resetGameBtn = document.getElementById('btn-reset');
 
 export default class Game {
     generateFighters = (list) => {
-        fightersList.querySelectorAll('div').forEach(item => item.remove());
+        $fightersList.querySelectorAll('div').forEach(item => item.remove());
         let self = this;
 
         list.forEach(item => {
@@ -25,7 +25,7 @@ export default class Game {
             $img.setAttribute('src', item.img);
 
             $btn.append($img);
-            fightersList.appendChild($btn);
+            $fightersList.appendChild($btn);
 
             $btn.addEventListener('click', function () {
                 let name = this.getAttribute('title');
@@ -33,26 +33,26 @@ export default class Game {
             });
         });
 
-        logs.classList.remove('hide');
+        $logs.classList.remove('hide');
         renderLog('The game begins', 'green');
     }
 
     resetTemplate = (start, reset, stop, attacks = false) => {
-        startGameBtn.disabled = start;
-        stopGameBtn.disabled = reset;
-        resetGameBtn.disabled = stop;
+        $startGameBtn.disabled = start;
+        $stopGameBtn.disabled = reset;
+        $resetGameBtn.disabled = stop;
 
         if (!reset && !stop && !attacks) {
-            helloScreen.classList.add('hide');
-            fightersList.classList.add('hide');
-            players.forEach(item => {
+            $helloScreen.classList.add('hide');
+            $fightersList.classList.add('hide');
+            $players.forEach(item => {
                 item.querySelector('.details').classList.remove('hide');
             });
         } else if (attacks && start) {
-            attacksList.querySelectorAll('button').forEach(item => item.remove());
+            $attacksList.querySelectorAll('button').forEach(item => item.remove());
         } else if (!start) {
-            attacksList.querySelectorAll('button').forEach(item => item.remove());
-            helloScreen.classList.remove('hide');
+            $attacksList.querySelectorAll('button').forEach(item => item.remove());
+            $helloScreen.classList.remove('hide');
         }
     }
 
@@ -168,7 +168,7 @@ export default class Game {
     }
 
     start = () => {
-        fightersList.classList.remove('hide');
+        $fightersList.classList.remove('hide');
         this.resetCards();
         renderLog('Choose your fighter');
     }
