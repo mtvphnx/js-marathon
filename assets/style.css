@@ -16,7 +16,7 @@ body {
     background-repeat: no-repeat;
     padding: 0;
     font-family: "Heebo", sans-serif;
-    background: url(./assets/Parkscene_Background.png) center bottom repeat-x, url(./assets/SkyDay.png) center top / cover;
+    background: url(./Parkscene_Background.png) center bottom repeat-x, url(./SkyDay.png) center top / cover;
     text-align: center;
     user-select: none;
 }
@@ -35,13 +35,59 @@ body {
 }
 
 .control {
-    width: 350px;
-    height: 260px;
+    padding-top: 20px;
+    width: 450px;
+    height: 240px;
     position: relative;
     margin: 20px;
     display: flex;
+    flex-direction: column;
+}
+
+.control__game {
+    width: 100%;
+    display: flex;
     justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.control__fight {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     align-items: center;
+}
+
+.control__fight .button {
+    margin: 10px;
+}
+
+.control__list, .control__fighters {
+    background: white;
+    border: 2px solid #ffc55b;
+    border-radius: 10px;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
+
+.control__fighters {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    height: 260px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.control__list-title {
+    color: black;
+    font-size: 25px;
 }
 
 .playground {
@@ -92,7 +138,7 @@ body {
     height: 260px;
     min-width: 150px;
     margin: 20px;
-    background-image: url(./assets/card.svg);
+    background-image: url(./card.svg);
     background-repeat: no-repeat;
     background-size: contain;
 }
@@ -108,7 +154,7 @@ body {
     left: 12%;
     top: 47%;
     transform: translateY(-50%);
-    background-image: url(./assets/pockeball.svg);
+    background-image: url(./pockeball.svg);
     background-repeat: no-repeat;
     background-size: contain;
 }
@@ -138,6 +184,7 @@ body {
     top: 16px;
     font-weight: 400;
     font-size: 18px;
+    opacity: 0;
 }
 .pokemon .sex {
     position: absolute;
@@ -276,6 +323,7 @@ body {
     outline: none !important;
     cursor: pointer;
     font-size: 18px;
+    text-transform: capitalize;
 
 }
 .button:after {
@@ -477,10 +525,10 @@ h1 {
     position: relative;
     z-index: 10;
     padding: 1rem;
-    max-width: 1000px;
+    max-width: 950px;
     margin: 0 auto;
     background: #ceefff;
-    height: 200px;
+    max-height: 200px;
     border-radius: 5px;
     overflow-x: auto;
     box-shadow: 5px 5px 5px rgba(0, 0, 0, .4);
@@ -493,6 +541,30 @@ h1 {
     text-align: left;
 }
 
-.log-finish {
+.log-style {
     background-color: lime;
+}
+
+.log-lose {
+    background-color: #9d0432;
+    color: white;
+}
+
+.hide {
+    display: none;
+}
+
+.fighter {
+    height: 60px;
+    width: 90px;
+    padding: 10px;
+    background: white;
+    border: 2px solid #ffc55b;
+    border-radius: 10px;
+    margin: 0 1px;
+    cursor: pointer;
+}
+
+.fighter img {
+    height: 100%;
 }

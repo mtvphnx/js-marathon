@@ -1,71 +1,81 @@
 import Selector from "./Selector.js";
-import { random } from "./utils.js";
+import { renderLog } from "./utils.js";
+import { game } from "./app.js";
 
 export default class Pokemon extends Selector {
-    constructor({ name, defaultHP, damageHP, type, selector, countDamage, currentDamage, hits }) {
+    constructor({ id, name, selector, img, hp, currentDamage, attacks }) {
         super(selector);
-
+        this.id = id;
         this.name = name;
-        this.defaultHP = defaultHP;
-        this.damageHP = damageHP;
-        this.type = type;
-        this.countDamage = countDamage;
+        this.img = img;
+        this.hp = hp;
+        this.life = hp;
+        this.attacks = attacks;
+        this.selector = selector;
         this.currentDamage = currentDamage;
-        this.hits = hits;
 
         this.renderPerson();
-    }
-
-    renderHP = () => {
-        const { elHP, damageHP, defaultHP } = this;
-        elHP.innerText = `${damageHP} / ${defaultHP}`;
-    }
-
-    renderProgress = () => {
-        const { damageHP, defaultHP, elProgress } = this;
-        elProgress.style.width = `${damageHP / defaultHP * 100}%`;
-    }
-
-    renderCounter = () => {
-        const { elButton, hits } = this;
-        elButton.querySelector('span').innerText = hits;
-    }
-
-    changeHP = (log) => {
-        const { name, defaultHP } = this;
-        let currentDamageValue = random(20);
-        this.currentDamage = currentDamageValue;
-
-        if (this.damageHP <= currentDamageValue) {
-            this.damageHP = 0;
-            log(this, `Персонаж ${name} проиграл бой! ${currentDamageValue} [0 / ${defaultHP}]`);
-        } else {
-            this.damageHP -= currentDamageValue;
-            log(this);
-        }
-
-        this.renderPerson();
-    }
-
-    counterKicks = (count) => {
-        let number = count;
-
-        return function(self) {
-            const { elButton, name, damageHP, currentDamage } = self;
-            number -= 1;
-
-            if (number === 0) {
-                elButton.querySelector('span').innerText = number;
-                elButton.disabled = true;
-            } else {
-                elButton.querySelector('span').innerText = number;
-            }
-        };
     }
 
     renderPerson = () => {
+        this.renderCard()
         this.renderHP();
         this.renderProgress();
-        this.renderCounter();
+    }
+
+    renderHP = () => {
+        const { elHP, hp, life } = this;
+        elHP.innerText = `${life} / ${hp}`;
+    }
+
+    renderProgress = () => {
+        const { elProgress, life, hp } = this;
+        let persent = life / hp * 100;
+        elProgress.style.width = `${persent}%`;
+        if (persent < 60 && persent > 20) {
+            elProgress.classList.add('low');
+        } else if (persent < 20) {
+            elProgress.classList.add('critical');
+        } else {
+            elProgress.classList.remove('low');
+            elProgress.classList.remove('critical');
+        }
+    }
+
+    renderCard = () => {
+        const { elImg, elName, name, img } = this;
+        elImg.setAttribute('src', img);
+        elImg.setAttribute('alt', name);
+        elName.innerText = name;
+    }
+
+    resetCard = () => {
+        const { elImg, elName, el } = this;
+        elImg.src = '';
+        elImg.setAttribute('alt', '');
+        elName.innerText = '';
+        el.querySelector('.details').classList.add('hide');
+    }
+
+    changeHP = (damage) => {
+        const { life, hp, name, selector } = this;
+        this.currentDamage = damage;
+
+        if (life <= damage) {
+            if (selector === 'player1') {
+                this.life = 0;
+                this.renderPerson();
+                renderLog(`${name} проиграл бой. Получено ${damage} урона <0/${hp}>`, 'red');
+                game.over();
+            } else if (selector === 'player2') {
+                this.life = 0;
+                renderLog(`${name} проиграл бой получив ${damage} урона <0/${hp}>`);
+                game.resetEnemy();
+            }
+        } else {
+            this.life -= damage;
+            game.renderLog(this);
+            this.renderPerson();
+        }
     }
 }

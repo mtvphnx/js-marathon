@@ -6,7 +6,8 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Pokemon Fight</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="./assets/favicon.png" />
+    <link rel="stylesheet" href="./assets/style.css">
 </head>
 <body>
 <div class="body">
@@ -20,64 +21,62 @@
         <div class="pokemon player1">
             <span class="lvl">Lv. 1</span>
 
-            <img src="http://sify4321.000webhostapp.com/pikachu.png" class="sprite">
+            <img src class="sprite" alt>
 
-            <div class="details">
+            <div class="details hide">
                 <h2 class="name" id="name-player1">
-                    Pikachu
                 </h2>
                 <div class="hp">
                     <div class="bar">
                         <div class="health" id="progressbar-player1" style="width: 100%;"></div>
                     </div>
-                    <span class="text" id="health-player1">100 / 100</span>
+                    <span class="text" id="health-player1">
+                    </span>
                 </div>
             </div>
         </div>
-
         <div class="control">
-            <button class="button" id="btn-kick-player1">
-                Kick character <span></span>
-            </button>
-            <button class="button" id="btn-kick-player2">
-                Kick enemy <span></span>
-            </button>
-
-            <div class="game-wrapper">
+            <div class="control__game">
                 <button class="button" id="btn-start">
                     Start game
                 </button>
-                <button class="button" id="btn-stop">
-                    Stop game
-                </button>
-                <button class="button" id="btn-reset">
+                <button class="button" id="btn-reset" disabled="true">
                     Reset game
                 </button>
+                <button class="button" id="btn-stop" disabled="true">
+                    Stop game
+                </button>
             </div>
+            <div class="control__fight">
+            </div>
+            <div class="control__list">
+                <div class="control__list-title">Are you ready?</div>
+            </div>
+            <div class="control__fighters hide"></div>
         </div>
 
         <div class="pokemon player2">
             <span class="lvl">Lv. 1</span>
 
-            <img src="http://sify4321.000webhostapp.com/charmander.png" class="sprite">
+            <img src class="sprite" alt>
 
-            <div class="details">
+            <div class="details hide">
                 <h2 class="name" id="name-player2">
-                    Charmander
                 </h2>
                 <div class="hp">
                     <div class="bar">
                         <div class="health" id="progressbar-player2" style="width: 100%;"></div>
                     </div>
-                    <span class="text" id="health-player2">100 / 100</span>
+                    <span class="text" id="health-player2">
+                    </span>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<div class="logs" id="logs"></div>
+<div class="logs hide" id="logs"></div>
 <div class="catch_screen"></div>
 
-<script src="main.js" type="module"></script>
+<script src="./modules/app.js" type="module"></script>
 </body>
 </html>
