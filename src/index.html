@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Pokemon Fight</title>
+    <link rel="icon" type="image/png" href="./images/favicon.png" />
+</head>
+<body>
+<div class="body">
+    <header>
+        <img class="logo"
+             title="Pokemon Fight"
+             src="./images/Pokemon_logo.png"
+             alt="Pokemon">
+    </header>
+    <div class="playground">
+        <div class="pokemon player1">
+            <img src class="sprite" alt>
+            <div class="details hide">
+                <h2 class="name" id="name-player1">
+                </h2>
+                <div class="hp">
+                    <div class="bar">
+                        <div class="health" id="progressbar-player1" style="width: 100%;"></div>
+                    </div>
+                    <span class="text" id="health-player1">
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="control">
+            <div class="control__game">
+                <button class="button" id="btn-start">
+                    Начать
+                </button>
+                <button class="button" id="btn-reset" disabled="true">
+                    Перезагрузить
+                </button>
+                <button class="button" id="btn-stop" disabled="true">
+                    Остановить
+                </button>
+            </div>
+            <div class="control__fight">
+            </div>
+            <div class="control__list">
+                <div class="control__list-title">Вы готовы?</div>
+            </div>
+            <div class="control__fighters hide"></div>
+        </div>
+        <div class="pokemon player2">
+            <img src class="sprite" alt>
+            <div class="details hide">
+                <h2 class="name" id="name-player2">
+                </h2>
+                <div class="hp">
+                    <div class="bar">
+                        <div class="health" id="progressbar-player2" style="width: 100%;"></div>
+                    </div>
+                    <span class="text" id="health-player2">
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="logs hide" id="logs"></div>
+</body>
+</html>
