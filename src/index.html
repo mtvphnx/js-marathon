@@ -6,23 +6,19 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Pokemon Fight</title>
-    <link rel="icon" type="image/png" href="./assets/favicon.png" />
-    <link rel="stylesheet" href="./assets/style.css">
+    <link rel="icon" type="image/png" href="./images/favicon.png" />
 </head>
 <body>
 <div class="body">
     <header>
         <img class="logo"
-             title="Reset Game"
-             src="./assets/Pokemon_logo.png"
+             title="Pokemon Fight"
+             src="./images/Pokemon_logo.png"
              alt="Pokemon">
     </header>
     <div class="playground">
         <div class="pokemon player1">
-            <span class="lvl">Lv. 1</span>
-
             <img src class="sprite" alt>
-
             <div class="details hide">
                 <h2 class="name" id="name-player1">
                 </h2>
@@ -38,28 +34,24 @@
         <div class="control">
             <div class="control__game">
                 <button class="button" id="btn-start">
-                    Start game
+                    Начать
                 </button>
                 <button class="button" id="btn-reset" disabled="true">
-                    Reset game
+                    Перезагрузить
                 </button>
                 <button class="button" id="btn-stop" disabled="true">
-                    Stop game
+                    Остановить
                 </button>
             </div>
             <div class="control__fight">
             </div>
             <div class="control__list">
-                <div class="control__list-title">Are you ready?</div>
+                <div class="control__list-title">Вы готовы?</div>
             </div>
             <div class="control__fighters hide"></div>
         </div>
-
         <div class="pokemon player2">
-            <span class="lvl">Lv. 1</span>
-
             <img src class="sprite" alt>
-
             <div class="details hide">
                 <h2 class="name" id="name-player2">
                 </h2>
@@ -75,8 +67,5 @@
     </div>
 </div>
 <div class="logs hide" id="logs"></div>
-<div class="catch_screen"></div>
-
-<script src="./modules/app.js" type="module"></script>
 </body>
 </html>

@@ -1,9 +1,9 @@
-import Selector from "./Selector.js";
-import { renderLog } from "./utils.js";
-import { game } from "./app.js";
+import Selector from '@/components/Selector';
+import {renderLog} from '@/components/utils';
+import {game} from '@/index';
 
 export default class Pokemon extends Selector {
-    constructor({ id, name, selector, img, hp, currentDamage, attacks }) {
+    constructor({id, name, selector, img, hp, currentDamage, attacks}) {
         super(selector);
         this.id = id;
         this.name = name;
@@ -18,19 +18,19 @@ export default class Pokemon extends Selector {
     }
 
     renderPerson = () => {
-        this.renderCard()
+        this.renderCard();
         this.renderHP();
         this.renderProgress();
     }
 
     renderHP = () => {
-        const { elHP, hp, life } = this;
+        const {elHP, hp, life} = this;
         elHP.innerText = `${life} / ${hp}`;
     }
 
     renderProgress = () => {
-        const { elProgress, life, hp } = this;
-        let percent = life / hp * 100;
+        const {elProgress, life, hp} = this;
+        const percent = life / hp * 100;
         elProgress.style.width = `${percent}%`;
         if (percent < 60 && percent > 20) {
             elProgress.classList.add('low');
@@ -43,14 +43,14 @@ export default class Pokemon extends Selector {
     }
 
     renderCard = () => {
-        const { elImg, elName, name, img } = this;
+        const {elImg, elName, name, img} = this;
         elImg.setAttribute('src', img);
         elImg.setAttribute('alt', name);
         elName.innerText = name;
     }
 
     resetCard = () => {
-        const { elImg, elName, el } = this;
+        const {elImg, elName, el} = this;
         elImg.src = '';
         elImg.setAttribute('alt', '');
         elName.innerText = '';
@@ -58,7 +58,7 @@ export default class Pokemon extends Selector {
     }
 
     changeHP = (damage) => {
-        const { life, hp, name, selector } = this;
+        const {life, hp, name, selector} = this;
         this.currentDamage = damage;
 
         if (life <= damage) {

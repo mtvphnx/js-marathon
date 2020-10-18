@@ -1,5 +1,5 @@
-import { random, renderLog, generateLog, server } from "./utils.js";
-import Pokemon from "./Pokemon.js";
+import Pokemon from '@/components/Pokemon';
+import {random, renderLog, generateLog, server} from '@/components/utils';
 
 const $helloScreen = document.querySelector('.control__list');
 const $attacksList = document.querySelector('.control__fight');
@@ -13,12 +13,12 @@ const $resetGameBtn = document.getElementById('btn-reset');
 
 export default class Game {
     generateFighters = (list) => {
-        $fightersList.querySelectorAll('div').forEach(item => item.remove());
-        let self = this;
+        $fightersList.querySelectorAll('div').forEach((item) => item.remove());
+        const self = this;
 
-        list.forEach(item => {
-            let $btn = document.createElement('div');
-            let $img = document.createElement('img');
+        list.forEach((item) => {
+            const $btn = document.createElement('div');
+            const $img = document.createElement('img');
             $btn.classList.add('fighter');
             $btn.setAttribute('title', item.name);
             $img.setAttribute('alt', item.name);
@@ -27,14 +27,14 @@ export default class Game {
             $btn.append($img);
             $fightersList.appendChild($btn);
 
-            $btn.addEventListener('click', function () {
-                let name = this.getAttribute('title');
+            $btn.addEventListener('click', function() {
+                const name = this.getAttribute('title');
                 self.init(list, name);
             });
         });
 
         $logs.classList.remove('hide');
-        renderLog('The game begins', 'green');
+        renderLog('Игра загружена', 'green');
     }
 
     resetTemplate = (start, reset, stop, attacks = false) => {
@@ -45,13 +45,13 @@ export default class Game {
         if (!reset && !stop && !attacks) {
             $helloScreen.classList.add('hide');
             $fightersList.classList.add('hide');
-            $players.forEach(item => {
+            $players.forEach((item) => {
                 item.querySelector('.details').classList.remove('hide');
             });
         } else if (attacks && start) {
-            $attacksList.querySelectorAll('button').forEach(item => item.remove());
+            $attacksList.querySelectorAll('button').forEach((item) => item.remove());
         } else if (!start) {
-            $attacksList.querySelectorAll('button').forEach(item => item.remove());
+            $attacksList.querySelectorAll('button').forEach((item) => item.remove());
             $helloScreen.classList.remove('hide');
         }
     }
@@ -61,15 +61,15 @@ export default class Game {
             selector: selector,
             currentDamage: 0,
             ...pokemon
-        })
+        });
     }
 
     resetCards = () => {}
 
     init = (list, name) => {
-        const pokemon = list.find(item => item.name === name);
-        const enemiesList = list.filter(item => item.name !== name);
-        let self = this;
+        const pokemon = list.find((item) => item.name === name);
+        const enemiesList = list.filter((item) => item.name !== name);
+        const self = this;
 
         let character = this.generatePokemon('player1', pokemon);
         let enemy = this.generatePokemon('player2', enemiesList[random(enemiesList.length - 1)]);
@@ -77,12 +77,12 @@ export default class Game {
         this.resetTemplate(true, false, false);
 
         const $control = document.querySelector('.control__fight');
-        let playerAttacks = character.attacks;
+        const playerAttacks = character.attacks;
 
         this.generateAttacksList = (list) => {
-            $control.querySelectorAll('button').forEach(item => item.remove());
-            list.forEach(item => {
-                let $btn = document.createElement('button');
+            $control.querySelectorAll('button').forEach((item) => item.remove());
+            list.forEach((item) => {
+                const $btn = document.createElement('button');
                 $btn.innerText = `${item.name} ${item.maxCount}`;
                 $btn.classList.add('button');
                 $btn.setAttribute('attack', item.name);
@@ -91,10 +91,10 @@ export default class Game {
                 $control.appendChild($btn);
 
                 $btn.addEventListener('click', function() {
-                    let counter = counterCharacter(this);
-                    let counterAll = allCounter(this);
+                    const counter = counterCharacter(this);
+                    const counterAll = allCounter(this);
 
-                    let attackObject = character.attacks.find((item) => item.name === this.getAttribute('attack'));
+                    const attackObject = character.attacks.find((item) => item.name === this.getAttribute('attack'));
                     if (character.life !== 0) {
                         self.damageServer(character.id, attackObject.id, enemy.id);
                     }
@@ -111,23 +111,23 @@ export default class Game {
                     }
                 });
             });
-        }
+        };
 
         this.reset = () => {
             character = this.generatePokemon('player1', pokemon);
             enemy = this.generatePokemon('player2', enemiesList[random(enemiesList.length - 1)]);
             this.generateAttacksList(playerAttacks);
-            renderLog('The game was reset', 'green');
-        }
+            renderLog('Игра перезагружена', 'green');
+        };
 
         this.resetEnemy = () => {
             enemy = this.generatePokemon('player2', enemiesList[random(enemiesList.length - 1)]);
-        }
+        };
 
         this.resetCards = () => {
             character.resetCard();
             enemy.resetCard();
-        }
+        };
 
         const counterKicks = (count) => {
             let number = count;
@@ -138,17 +138,17 @@ export default class Game {
         };
 
         let allCounterNumber = 0;
-        playerAttacks.forEach(item => allCounterNumber += item.maxCount);
+        playerAttacks.forEach((item) => allCounterNumber += item.maxCount);
         const allCounter = counterKicks(allCounterNumber);
 
         this.generateAttacksList(playerAttacks);
 
         this.damagePlayers = (result) => {
-            const { kick: { player1: characterDamage, player2: enemyDamage } } = result;
+            const {kick: {player1: characterDamage, player2: enemyDamage}} = result;
 
             enemy.changeHP(enemyDamage);
             character.changeHP(characterDamage);
-        }
+        };
 
         this.renderLog = (self, win = false) => {
             const text = self.selector === 'player1' ? generateLog(self, enemy) : generateLog(self, character);
@@ -158,29 +158,29 @@ export default class Game {
             } else {
                 renderLog(win, true);
             }
-        }
-        renderLog('Fight!');
+        };
+        renderLog('Бой!');
     }
 
     damageServer = (character, attack, enemy) => {
         const damageObject = async () => await server(`https://reactmarathon-api.netlify.app/api/fight?player1id=${character}&attackId=${attack}&player2id=${enemy}`);
-        damageObject().then(res => this.damagePlayers(res));
+        damageObject().then((res) => this.damagePlayers(res));
     }
 
     start = () => {
         $fightersList.classList.remove('hide');
         this.resetCards();
-        renderLog('Choose your fighter');
+        renderLog('Выберите персонажа');
     }
 
     stop = () => {
         this.resetTemplate(false, true, true, true);
         this.resetCards();
-        renderLog('The game was stopped', 'green');
+        renderLog('Игра остановлена', 'green');
     }
 
     over = () => {
         this.resetTemplate(false, true, true, true);
-        renderLog('GAME OVER', 'red');
+        renderLog('Вы проиграли', 'red');
     }
 }
